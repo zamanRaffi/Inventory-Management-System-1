@@ -1,6 +1,7 @@
 from tkinter import*
 from PIL import Image,ImageTk
 from tkinter import ttk,messagebox
+import auth
 import sqlite3
 import time
 import os
@@ -10,25 +11,29 @@ class billClass:
     def __init__(self,root):
         self.root=root
         self.root.geometry("1350x700+110+80")
-        self.root.title("Inventory Management System | Nishant Gupta")
+        self.root.title("Inventory Management System")
         self.root.resizable(False,False)
         self.root.config(bg="white")
         self.cart_list=[]
         self.chk_print=0
 
         #------------- title --------------
-        self.icon_title=PhotoImage(file="Inventory-Management-System/images/logo1.png")
+        self.icon_title=PhotoImage(file="images/logo1.png")
         title=Label(self.root,text="Inventory Management System",image=self.icon_title,compound=LEFT,font=("times new roman",40,"bold"),bg="#010c48",fg="white",anchor="w",padx=20).place(x=0,y=0,relwidth=1,height=70)
 
         #------------ logout button -----------
-        btn_logout=Button(self.root,text="Logout",font=("times new roman",15,"bold"),bg="yellow",cursor="hand2").place(x=1150,y=10,height=50,width=150)
+        self.icon_title = PhotoImage(file="images/logo1.png")
+        title = Label(self.root, text="Inventory Management System", image=self.icon_title, compound=LEFT,
+                          font=("times new roman", 40, "bold"), bg="#010c48", fg="white", anchor="w", padx=20).place(x=0, y=0, relwidth=1, height=70)
+        btn_logout = Button(self.root, text="Logout", font=("times new roman", 15, "bold"), bg="yellow", cursor="hand2",
+                                command=self.logout).place(x=1150, y=10, height=50, width=150)
 
         #------------ clock -----------------
         self.lbl_clock=Label(self.root,text="Welcome to Inventory Management System\t\t Date: DD:MM:YYYY\t\t Time: HH:MM:SS",font=("times new roman",15),bg="#4d636d",fg="white")
         self.lbl_clock.place(x=0,y=70,relwidth=1,height=30)
 
         #------------ footer -----------------
-        lbl_footer=Label(self.root,text="IMS-Inventory Management System | Developed by Nishant Gupta\nFor any Technical Issues Contact: 9899459288",font=("times new roman",10),bg="#4d636d",fg="white").pack(side=BOTTOM,fill=X)
+        lbl_footer=Label(self.root,text="IMS-Inventory Management System",font=("times new roman",10),bg="#4d636d",fg="white").pack(side=BOTTOM,fill=X)
 
         #-------------- product frame -----------------
         ProductFrame1=Frame(self.root,bd=4,relief=RIDGE,bg="white")
@@ -341,7 +346,7 @@ class billClass:
             #--------- bill bottom --------------
             self.bill_bottom()
 
-            fp=open(f'Inventory-Management-System/bill/{str(self.invoice)}.txt','w')
+            fp=open(f'bill/{str(self.invoice)}.txt','w')
             fp.write(self.txt_bill_area.get('1.0',END))
             fp.close()
             messagebox.showinfo("Saved","Bill has been generated",parent=self.root)
@@ -434,6 +439,13 @@ class billClass:
             os.startfile(new_file,'print')
         else:
             messagebox.showinfo("Print","Please generate bill to print the receipt",parent=self.root)
+
+    def logout(self):
+            self.root.destroy()  # Close the current window
+            root = Tk()  # Create a new Tkinter window for auth
+            auth.AuthClass(root)  # Open the login window from auth.py
+            root.mainloop()    # Closes the current window
+        
 
 if __name__=="__main__":
     root=Tk()

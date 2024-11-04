@@ -8,7 +8,7 @@ class salesClass:
     def __init__(self,root):
         self.root=root
         self.root.geometry("1100x500+320+220")
-        self.root.title("Inventory Management System | Nishant Gupta")
+        self.root.title("Inventory Management System")
         self.root.config(bg="white")
         self.root.resizable(False,False)
         self.root.focus_force()
@@ -48,7 +48,7 @@ class salesClass:
         self.bill_area.pack(fill=BOTH,expand=1)
 
         #------------- image -----------------
-        self.bill_photo=Image.open("Inventory-Management-System/images/cat2.jpg")
+        self.bill_photo=Image.open("images/cat2.jpg")
         self.bill_photo=self.bill_photo.resize((450,300))
         self.bill_photo=ImageTk.PhotoImage(self.bill_photo)
 
@@ -60,7 +60,7 @@ class salesClass:
     def show(self):
         del self.blll_list[:]
         self.Sales_List.delete(0,END)
-        for i in os.listdir('Inventory-Management-System/bill'):
+        for i in os.listdir('bill'):
             if i.split('.')[-1]=='txt':
                 self.Sales_List.insert(END,i)
                 self.blll_list.append(i.split('.')[0])
@@ -69,7 +69,7 @@ class salesClass:
         index_=self.Sales_List.curselection()
         file_name=self.Sales_List.get(index_)
         self.bill_area.delete('1.0',END)
-        fp=open(f'Inventory-Management-System/bill/{file_name}','r')
+        fp=open(f'bill/{file_name}','r')
         for i in fp:
             self.bill_area.insert(END,i)
         fp.close()
@@ -79,7 +79,7 @@ class salesClass:
             messagebox.showerror("Error","Invoice no. should be required",parent=self.root)
         else:
             if self.var_invoice.get() in self.blll_list:
-                fp=open(f'Inventory-Management-System/bill/{self.var_invoice.get()}.txt','r')
+                fp=open(f'bill/{self.var_invoice.get()}.txt','r')
                 self.bill_area.delete('1.0',END)
                 for i in fp:
                     self.bill_area.insert(END,i)
